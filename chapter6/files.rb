@@ -1,21 +1,22 @@
-# lines = []
+lines = []
 
-# File.open('reviews.txt') do |file|
-#   lines = file.readlines
-# end
-
-# relevant_lines = lines.find_all do |line|
-#   line.include? 'Truncated'
-# end
-
-# puts relevant_lines
-
-def print_block_value
-  puts yield
+File.open('reviews.txt') do |file|
+  lines = file.readlines
 end
 
-def other_method
-  print_block_value { 1 + 1 }
+relevant_lines = lines.find_all do |line|
+  line.include? 'Truncated' and !line.include? '--'
 end
 
-other_method
+def find_adjective(str)
+  arr = str.split(' ')
+  idx = arr.find_index('is')
+  arr[idx + 1]
+end
+
+adjectives = relevant_lines.map do |line|
+  adjective = find_adjective(line).match(/\w+/).to_s
+  "'#{adjective.capitalize}'"
+end
+
+puts adjectives
