@@ -1,13 +1,17 @@
-def solution(number)
-  result = ''
-  str = number.to_s.split('')
+class IsbnVerifier
+  def self.valid?(str)
+    arr = str.gsub('-', '').split('').map { _1.to_i }
+    return false if arr.length != 10
 
-  str.reverse.each_with_index do |c, i|
-    next if c == 0
-    if i == 0
-
+    idx = 0
+    sum = 0
+    until idx == 10
+      sum += arr[idx] * (10 - idx)
+      idx += 1
     end
+
+    (sum % 11).zero?
   end
 end
 
-solution 1000
+p IsbnVerifier.valid?('3-598-21508-8')
